@@ -18,6 +18,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 /**
  * An {@link Activity} showing a tuggable "Hello World!" card.
  * <p/>
@@ -54,11 +66,20 @@ public class MainActivity extends Activity implements LocationListener {
         TextView leftText = (TextView) findViewById(R.id.textView2);
         leftText.setText("42");
 
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+//        try {
+//            getISSLocation();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        System.out.println("End of onCreate");
+        new RequestIISLocation().execute("http://api.open-notify.org/iss-now.json");
 
-        getLocation();
+
+//        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+//
+//        System.out.println("End of onCreate");
+//
+//        getLocation();
 
         /*
         mView = buildView();
@@ -186,10 +207,13 @@ public class MainActivity extends Activity implements LocationListener {
     @Override
     public void onLocationChanged(Location loc) {
         System.out.println("New GPS position updated");
+
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+
         System.out.println("Lat: " + latitude + ", Longitude: " + longitude);
-        System.out.println(updateElevation(longitude, latitude, 50, 0).getElevation());
+
+        System.out.println(updateElevation(longitude, latitude, 165, 15).getDegsHeading());
     }
 
     @Override
@@ -225,6 +249,34 @@ public class MainActivity extends Activity implements LocationListener {
         position.setDegsHeading(degsHeading);
 
         return position;
+    }
+
+    public void getISSLocation() throws IOException, JSONException
+    {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpResponse response = httpclient.execute(new HttpGet("http://api.open-notify.org/iss-now.json"));
+        StatusLine statusLine = response.getStatusLine();
+        if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            try {
+                response.getEntity().writeTo(out);
+                out.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            String jsonString = out.toString();
+
+            // Now parse through JSON
+            JSONObject jObject = new JSONObject(jsonString);
+            String iisLongitude = jObject.getString("longitude");
+            String iisLatitude = jObject.getString("latitude");
+            System.out.println("IIS: " + iisLongitude + iisLatitude);
+        } else{
+            //Closes the connection.
+            response.getEntity().getContent().close();
+            throw new IOException(statusLine.getReasonPhrase());
+        }
     }
 
 }
