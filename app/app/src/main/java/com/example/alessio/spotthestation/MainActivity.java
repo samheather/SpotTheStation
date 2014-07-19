@@ -7,6 +7,7 @@ import com.google.android.glass.widget.CardScrollView;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
@@ -92,7 +93,9 @@ public class MainActivity extends Activity {
         Card card = new Card(this);
 
         card.setText(R.string.hello_world);
+        card.addImage(R.drawable.up);
         return card.getView();
+
     }
 
 }
