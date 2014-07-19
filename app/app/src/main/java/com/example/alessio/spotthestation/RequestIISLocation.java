@@ -7,6 +7,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -44,5 +45,16 @@ public class RequestIISLocation extends AsyncTask<String, String, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
         System.out.println(result);
+        double iisLongitude = 0;
+        double iisLatitude = 0;
+        try {
+            JSONObject jObject = new JSONObject(result);
+            iisLongitude = jObject.getJSONObject("iss_position").getDouble("longitude");
+            iisLatitude = jObject.getJSONObject("iss_position").getDouble("latitude");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("IIS: " + iisLongitude + iisLatitude);
     }
 }

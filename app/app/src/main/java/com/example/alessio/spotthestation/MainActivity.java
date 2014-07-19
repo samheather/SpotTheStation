@@ -269,8 +269,8 @@ public class MainActivity extends Activity implements LocationListener {
 
             // Now parse through JSON
             JSONObject jObject = new JSONObject(jsonString);
-            String iisLongitude = jObject.getString("longitude");
-            String iisLatitude = jObject.getString("latitude");
+            String iisLongitude = jObject.getJSONObject("iss_position").getString("longitude");
+            String iisLatitude = jObject.getJSONObject("iss_position").getString("latitude");
             System.out.println("IIS: " + iisLongitude + iisLatitude);
         } else{
             //Closes the connection.
