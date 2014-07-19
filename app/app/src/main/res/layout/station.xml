@@ -70,20 +70,55 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView1"
         android:layout_gravity="center_horizontal|bottom"
-        android:src="@drawable/up" />
+        android:src="@drawable/down" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView3"
         android:layout_gravity="right|center_vertical"
-        android:src="@drawable/up" />
+        android:src="@drawable/right" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView4"
         android:layout_gravity="left|center_vertical"
-        android:src="@drawable/up" />
+        android:src="@drawable/left" />
+
+    <TextView
+        android:layout_width="87dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/textView"
+        android:layout_gravity="left|center_vertical"
+        android:gravity="right" />
+
+    <TextView
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/textView2"
+        android:layout_gravity="right|center_vertical"
+        android:gravity="left" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="99dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/textView3"
+        android:layout_gravity="center_horizontal|bottom" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="95dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="0"
+        android:id="@+id/textView4"
+        android:layout_gravity="center_horizontal|top"
+        android:gravity="bottom" />
 
 </FrameLayout>
