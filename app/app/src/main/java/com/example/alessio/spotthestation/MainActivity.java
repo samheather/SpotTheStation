@@ -59,13 +59,6 @@ public class MainActivity extends Activity implements LocationListener {
         System.out.println("End of onCreate");
 
         getLocation();
-//        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-//        double longitude = location.getLongitude();
-//        double latitude = location.getLatitude();
-//
-//        System.out.println(updateElevation(longitude, latitude, 50, 0).getElevation());
-
 
         /*
         mView = buildView();
@@ -197,34 +190,6 @@ public class MainActivity extends Activity implements LocationListener {
         longitude = location.getLongitude();
         System.out.println("Lat: " + latitude + ", Longitude: " + longitude);
         System.out.println(updateElevation(longitude, latitude, 50, 0).getElevation());
-//        editLocation.setText("");
-//        pb.setVisibility(View.INVISIBLE);
-//        Toast.makeText(
-//                getBaseContext(),
-//                "Location changed: Lat: " + loc.getLatitude() + " Lng: "
-//                        + loc.getLongitude(), Toast.LENGTH_SHORT).show();
-//        String longitude = "Longitude: " + loc.getLongitude();
-//        Log.v(TAG, longitude);
-//        String latitude = "Latitude: " + loc.getLatitude();
-//        Log.v(TAG, latitude);
-//
-//        /*------- To get city name from coordinates -------- */
-//        String cityName = null;
-//        Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
-//        List<Address> addresses;
-//        try {
-//            addresses = gcd.getFromLocation(loc.getLatitude(),
-//                    loc.getLongitude(), 1);
-//            if (addresses.size() > 0)
-//                System.out.println(addresses.get(0).getLocality());
-//            cityName = addresses.get(0).getLocality();
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        String s = longitude + "\n" + latitude + "\n\nMy Current City is: "
-//                + cityName;
-//        editLocation.setText(s);
     }
 
     @Override
