@@ -66,20 +66,11 @@ public class MainActivity extends Activity implements LocationListener {
         TextView leftText = (TextView) findViewById(R.id.textView2);
         leftText.setText("42");
 
-//        try {
-//            getISSLocation();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
         new RequestIISLocation().execute("http://api.open-notify.org/iss-now.json");
 
-
-//        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-//
-//        System.out.println("End of onCreate");
-//
-//        getLocation();
+        // Subscribe to the location service - from now on Longitude and Latitude doubles above will
+        // be updated when users location changes significantly.
+        getLocation();
 
         /*
         mView = buildView();
@@ -203,7 +194,6 @@ public class MainActivity extends Activity implements LocationListener {
         return location;
     }
 
-
     @Override
     public void onLocationChanged(Location loc) {
         System.out.println("New GPS position updated");
@@ -249,34 +239,6 @@ public class MainActivity extends Activity implements LocationListener {
         position.setDegsHeading(degsHeading);
 
         return position;
-    }
-
-    public void getISSLocation() throws IOException, JSONException
-    {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpResponse response = httpclient.execute(new HttpGet("http://api.open-notify.org/iss-now.json"));
-        StatusLine statusLine = response.getStatusLine();
-        if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            try {
-                response.getEntity().writeTo(out);
-                out.close();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-            String jsonString = out.toString();
-
-            // Now parse through JSON
-            JSONObject jObject = new JSONObject(jsonString);
-            String iisLongitude = jObject.getJSONObject("iss_position").getString("longitude");
-            String iisLatitude = jObject.getJSONObject("iss_position").getString("latitude");
-            System.out.println("IIS: " + iisLongitude + iisLatitude);
-        } else{
-            //Closes the connection.
-            response.getEntity().getContent().close();
-            throw new IOException(statusLine.getReasonPhrase());
-        }
     }
 
 }
