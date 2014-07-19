@@ -5,4 +5,5 @@
     <string name="title_activity_main">Spot The Intl Station</string>
     <string name="hello_world">Hello world!</string>
 
+    <string name="glass_voice_trigger">where is the station</string>
 </resources>
