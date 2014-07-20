@@ -98,12 +98,17 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
     protected void onResume() {
         super.onResume();
         //mCardScroller.activate();
+        // for the system's orientation sensor registered listeners
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+                SensorManager.SENSOR_DELAY_GAME);
+
     }
 
     @Override
     protected void onPause() {
         //mCardScroller.deactivate();
         super.onPause();
+        //mSensorManager.unregisterListener(this);
     }
 
     private void refreshUI() {
