@@ -33,6 +33,8 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * An {@link Activity} showing a tuggable "Hello World!" card.
@@ -113,8 +115,15 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         TextView timeText = (TextView)findViewById(R.id.timeTillVisible);
         long unixTime = System.currentTimeMillis() / 1000L;
         long timeToShow = ISSNextTime - unixTime;
-        
-        timeText.setText(String.valueOf(timeToShow));
+
+        // Convert to String
+        Date date = new Date(timeToShow*1000L);
+        // *1000 is to convert seconds to milliseconds
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); // the format of your date
+        String formattedDate = sdf.format(date);
+        System.out.println(formattedDate);
+
+        timeText.setText(formattedDate);
     }
 
     /**
