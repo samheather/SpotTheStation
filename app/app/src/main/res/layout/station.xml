@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0"
-        android:id="@+id/textView"
+        android:id="@+id/leftText"
         android:layout_gravity="left|center_vertical"
         android:gravity="right" />
 
@@ -100,7 +100,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0"
-        android:id="@+id/textView2"
+        android:id="@+id/rightText"
         android:layout_gravity="right|center_vertical"
         android:gravity="left" />
 
@@ -109,7 +109,7 @@
         android:layout_height="99dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0"
-        android:id="@+id/textView3"
+        android:id="@+id/bottomText"
         android:layout_gravity="center_horizontal|bottom" />
 
     <TextView
@@ -117,7 +117,7 @@
         android:layout_height="95dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="0"
-        android:id="@+id/textView4"
+        android:id="@+id/upText"
         android:layout_gravity="center_horizontal|top"
         android:gravity="bottom" />
 

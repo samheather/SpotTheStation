@@ -80,8 +80,8 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
 
         setContentView(R.layout.station);
 
-        TextView leftText = (TextView) findViewById(R.id.textView2);
-        leftText.setText("42");
+        //TextView leftText = (TextView) findViewById(R.id.textView2);
+        //leftText.setText("42");
 
         new RequestIISLocation().execute("http://api.open-notify.org/iss-now.json");
 
@@ -279,8 +279,34 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
     @Override
     public void onSensorChanged(SensorEvent event) {
         // get the angle around the z-axis rotated
-        float degree = Math.round(event.values[0]);
-        System.out.println("AAAAAAA"+degree);
+        float x = Math.round(event.values[0]);   // Left-right orizontal angle  (0,360)
+        float y = Math.round(event.values[1]);  // head up or down  vertical angle (-180,+180)
+        float z = Math.round(event.values[2]);  //Ignore it for now z-axes, rotate you head (-80,+80)????
+
+
+        System.out.println("AAAAAAA"+x);
+
+        Position p = updateElevation(longitude, latitude, ISSLongitude,ISSLatitude);
+
+        //HERE WE NEED TO COMPUTE THE DIFFERENCE
+
+        String upStr = "up"+x;
+        String bottomStr = "bottom";
+        String leftStr = "left";
+        String rightStr = "right";
+
+        TextView upText = (TextView) findViewById(R.id.upText);
+        upText.setText(upStr);
+
+        TextView bottomText = (TextView) findViewById(R.id.bottomText);
+        bottomText.setText(bottomStr);
+
+        TextView leftText = (TextView) findViewById(R.id.leftText);
+        leftText.setText(leftStr);
+
+        TextView rightText = (TextView) findViewById(R.id.rightText);
+        rightText.setText(rightStr);
+
         //tvHeading.setText("Heading: " + Float.toString(degree) + " degrees");
     }
 
