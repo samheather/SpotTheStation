@@ -52,7 +52,7 @@ public class MainActivity extends Activity implements LocationListener {
 
     private LocationManager locationManager;
     private Location location;
-    private long MIN_TIME_BW_UPDATES = 1;
+    private long MIN_TIME_BW_UPDATES = 1000;
     private float MIN_DISTANCE_CHANGE_FOR_UPDATES = 0;
     double longitude = 0;
     double latitude = 0;
