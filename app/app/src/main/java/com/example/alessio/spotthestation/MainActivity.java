@@ -248,7 +248,7 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         double total_distance = Math.sqrt(Math.pow(lat_distance, 2) + Math.pow(long_distance, 2));
         double elevation = total_distance * 0.009;
 
-        position.setUserDistance(Math.round(elevation * 10) / 10);
+        position.setElevation(Math.round(elevation * 10) / 10);
 
         //Finding distance to station
         double userDistance = Math.sqrt(Math.pow(total_distance, 2) + Math.pow(370, 2));
