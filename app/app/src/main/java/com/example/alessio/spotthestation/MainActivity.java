@@ -57,6 +57,9 @@ public class MainActivity extends Activity implements LocationListener {
     double longitude = 0;
     double latitude = 0;
 
+    private static double ISSLongitude = 0;
+    private static double ISSLatitude = 0;
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -241,4 +244,19 @@ public class MainActivity extends Activity implements LocationListener {
         return position;
     }
 
+    public static double getISSLongitude() {
+        return MainActivity.ISSLongitude;
+    }
+
+    public static void setISSLongitude(double ISSLongitude) {
+        MainActivity.ISSLongitude = ISSLongitude;
+    }
+
+    public static double getISSLatitude() {
+        return MainActivity.ISSLatitude;
+    }
+
+    public static void setISSLatitude(double ISSLatitude) {
+        MainActivity.ISSLatitude = ISSLatitude;
+    }
 }
