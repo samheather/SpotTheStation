@@ -298,14 +298,20 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         float z = Math.round(event.values[2]);  //Ignore it for now z-axes, rotate you head (-80,+80)????
 
 
-        System.out.println("AAAAAAA"+x);
+
 
         Position p = updateElevation(longitude, latitude, ISSLongitude,ISSLatitude);
 
         //HERE WE NEED TO COMPUTE THE DIFFERENCE
 
-        String upStr = "up"+x;
-        String bottomStr = "bottom";
+        double degsHeadings = p.getDegsHeading();
+        double elevation = p.getElevation();
+
+        System.out.println("DDDD"+degsHeadings);
+        System.out.println("EEEE"+elevation);
+
+        String upStr = "D:"+degsHeadings;
+        String bottomStr = "E:"+elevation;
         String leftStr = "left";
         String rightStr = "right";
 
