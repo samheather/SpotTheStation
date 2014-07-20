@@ -57,7 +57,7 @@ public class RequestIISTime extends AsyncTask<String, String, String> {
         }
         System.out.println("IIS time: " + nextISSTime);
 
-        // Update times if last time no longer visible:
+        // Update times if last time no longer visible (i.e. station has 'set' (disappeared)):
         if ((MainActivity.getISSNextDuration() == 0) || MainActivity.getISSNextTime()+MainActivity.getISSNextDuration() < (System.currentTimeMillis() / 1000L))
         {
             MainActivity.setISSNextTime(nextISSTime);
