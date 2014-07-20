@@ -59,6 +59,7 @@ public class MainActivity extends Activity implements LocationListener {
 
     private static double ISSLongitude = 0;
     private static double ISSLatitude = 0;
+    private static long ISSNextTime = 0;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -70,6 +71,8 @@ public class MainActivity extends Activity implements LocationListener {
         leftText.setText("42");
 
         new RequestIISLocation().execute("http://api.open-notify.org/iss-now.json");
+
+        new RequestIISTime().execute("http://api.open-notify.org/iss-pass.json?lat=50&lon=0.1");
 
         // Subscribe to the location service - from now on Longitude and Latitude doubles above will
         // be updated when users location changes significantly.
@@ -127,6 +130,19 @@ public class MainActivity extends Activity implements LocationListener {
         super.onPause();
     }
 
+    private void refreshUI() {
+        System.out.println("Refreshing the UI");
+
+        // TODO: Remove updating the current IIS time for every UI update
+        new RequestIISTime().execute("http://api.open-notify.org/iss-pass.json?lat=50&lon=0.1");
+
+        TextView timeText = (TextView)findViewById(R.id.timeTillVisible);
+        long unixTime = System.currentTimeMillis() / 1000L;
+        long timeToShow = ISSNextTime - unixTime;
+        
+        timeText.setText(String.valueOf(timeToShow));
+    }
+
     /**
      * Builds a Glass styled "Hello World!" view using the {@link Card} class.
      */
@@ -141,8 +157,9 @@ public class MainActivity extends Activity implements LocationListener {
 
     public Location getLocation() {
         try {
-//            locationManager = (LocationManager) mContext
-//                    .getSystemService(LOCATION_SERVICE);
+            locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+
+//            (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
             // getting GPS status
             boolean isGPSEnabled = locationManager
@@ -207,6 +224,9 @@ public class MainActivity extends Activity implements LocationListener {
         System.out.println("Lat: " + latitude + ", Longitude: " + longitude);
 
         System.out.println(updateElevation(longitude, latitude, 165, 15).getDegsHeading());
+
+        // Refresh GUI
+        refreshUI();
     }
 
     @Override
@@ -258,5 +278,13 @@ public class MainActivity extends Activity implements LocationListener {
 
     public static void setISSLatitude(double ISSLatitude) {
         MainActivity.ISSLatitude = ISSLatitude;
+    }
+
+    public static long getISSNextTime() {
+        return MainActivity.ISSNextTime;
+    }
+
+    public static void setISSNextTime(long newNextTime) {
+        MainActivity.ISSNextTime = newNextTime;
     }
 }
