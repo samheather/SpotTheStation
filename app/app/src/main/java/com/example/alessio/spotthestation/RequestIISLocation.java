@@ -56,5 +56,7 @@ public class RequestIISLocation extends AsyncTask<String, String, String> {
             e.printStackTrace();
         }
         System.out.println("IIS: " + iisLongitude + iisLatitude);
+        MainActivity.setISSLatitude(iisLatitude);
+        MainActivity.setISSLongitude(iisLongitude);
     }
 }
