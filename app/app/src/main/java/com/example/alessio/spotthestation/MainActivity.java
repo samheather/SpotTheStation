@@ -133,7 +133,7 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
             String formattedDate = sdf.format(date);
             System.out.println(formattedDate);
 
-            timeText.setText(formattedDate);
+            timeText.setText("Time till ISS visible:\n         " + formattedDate);
         }
         else {
             // Space station is now visible

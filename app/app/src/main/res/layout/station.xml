@@ -87,7 +87,7 @@
         android:src="@drawable/left" />
 
     <TextView
-        android:layout_width="97dp"
+        android:layout_width="93dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="0"
@@ -96,7 +96,7 @@
         android:gravity="right" />
 
     <TextView
-        android:layout_width="97dp"
+        android:layout_width="82dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="0"
@@ -106,7 +106,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="99dp"
+        android:layout_height="78dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="0"
         android:id="@+id/bottomText"
@@ -114,7 +114,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="95dp"
+        android:layout_height="79dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="0"
         android:id="@+id/upText"
@@ -127,6 +127,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/timeTillVisible"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:textAlignment="center" />
 
 </FrameLayout>
