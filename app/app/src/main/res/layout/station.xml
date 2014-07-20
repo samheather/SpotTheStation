@@ -61,28 +61,28 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
+        android:id="@+id/imgUp"
         android:layout_gravity="center_horizontal|top"
         android:src="@drawable/up" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView1"
+        android:id="@+id/imgBottom"
         android:layout_gravity="center_horizontal|bottom"
         android:src="@drawable/down" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView3"
+        android:id="@+id/imgRight"
         android:layout_gravity="right|center_vertical"
         android:src="@drawable/right" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView4"
+        android:id="@+id/imgLeft"
         android:layout_gravity="left|center_vertical"
         android:src="@drawable/left" />
 

@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
@@ -302,43 +303,84 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         float z = Math.round(event.values[2]);  //Ignore it for now z-axes, rotate you head (-80,+80)????
 
         System.out.println("XXXX"+x);
-        System.out.println("YYYY"+y);
+        //System.out.println("YYYY"+y);
 
 
         Position p = updateElevation(longitude, latitude, ISSLongitude,ISSLatitude);
 
+        //System.out.println("AAAA"+p.getDegsHeading());
+        //System.out.println("EEEE"+p.getElevation());
         //HERE WE NEED TO COMPUTE THE DIFFERENCE
 
-        double degsHeadings = 73.0;
+        double degsHeadings = bearing(latitude, longitude, ISSLatitude, ISSLongitude); //73.0;
         double elevation = 13.0;
 
+        //System.out.println("DDDD"+degsHeadings);
+ //      System.out.println("EEEE"+elevation);
 
         double bottom = (-(y+90-(360-elevation))%360);
-        //double up = ((y+90+elevation)%360);
+
         double up = Math.abs((360-bottom)%360);
 
-        double left = ((x+degsHeadings))%360;
+        //double left = ((x+degsHeadings))%360;
 
-//        double right = (-(x-(360-degsHeadings))%360);
-        double right = Math.abs((360-left)%360);
+
+        //double right = Math.abs((360-left)%360);
 
 
         String upStr = ""+up;
         String bottomStr = ""+bottom;
         if (up<bottom){
             bottomStr = "";
+            ImageView bottomimg = (ImageView) findViewById(R.id.imgBottom);
+            bottomimg.setVisibility(View.INVISIBLE);
+            ImageView upimg = (ImageView) findViewById(R.id.imgUp);
+            upimg.setVisibility(View.VISIBLE);
         }
         else {
             upStr = "";
+            ImageView bottomimg = (ImageView) findViewById(R.id.imgBottom);
+            bottomimg.setVisibility(View.VISIBLE);
+            ImageView upimg = (ImageView) findViewById(R.id.imgUp);
+            upimg.setVisibility(View.INVISIBLE);
         }
-
+/*
         String leftStr = ""+left;
         String rightStr = ""+right;
         if (left<right){
             rightStr = "";
+            ImageView leftimg = (ImageView) findViewById(R.id.imgLeft);
+            leftimg.setVisibility(View.VISIBLE);
+            ImageView rightimg = (ImageView) findViewById(R.id.imgRight);
+            rightimg.setVisibility(View.INVISIBLE);
         }else{
             leftStr = "";
+            ImageView leftimg = (ImageView) findViewById(R.id.imgLeft);
+            leftimg.setVisibility(View.INVISIBLE);
+            ImageView rightimg = (ImageView) findViewById(R.id.imgRight);
+            rightimg.setVisibility(View.VISIBLE);
+        }*/
+
+        double diff = degsHeadings-x;
+
+        String leftStr = ""+(-diff);
+        String rightStr = ""+diff;
+        if (diff<0){
+            rightStr = "";
+            ImageView leftimg = (ImageView) findViewById(R.id.imgLeft);
+            leftimg.setVisibility(View.VISIBLE);
+            ImageView rightimg = (ImageView) findViewById(R.id.imgRight);
+            rightimg.setVisibility(View.INVISIBLE);
+        }else{
+            leftStr = "";
+            ImageView leftimg = (ImageView) findViewById(R.id.imgLeft);
+            leftimg.setVisibility(View.INVISIBLE);
+            ImageView rightimg = (ImageView) findViewById(R.id.imgRight);
+            rightimg.setVisibility(View.VISIBLE);
         }
+
+
+
 
 
         TextView upText = (TextView) findViewById(R.id.upText);
@@ -363,4 +405,18 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // not in use
     }
+    //double user_long_degs, double user_lat_degs, double iss_long_degs, double iss_lat_degs
+    protected static double bearing(double lat1, double lon1, double lat2, double lon2){
+        double longitude1 = lon1;
+        double longitude2 = lon2;
+        double latitude1 = Math.toRadians(lat1);
+        double latitude2 = Math.toRadians(lat2);
+        double longDiff= Math.toRadians(longitude2-longitude1);
+        double y= Math.sin(longDiff)*Math.cos(latitude2);
+        double x=Math.cos(latitude1)*Math.sin(latitude2)-Math.sin(latitude1)*Math.cos(latitude2)*Math.cos(longDiff);
+
+        return Math.round((Math.toDegrees(Math.atan2(y, x))+360)%360);
+    }
+
+
 }
