@@ -8,6 +8,10 @@ import com.google.android.glass.widget.CardScrollView;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -42,7 +46,7 @@ import java.text.SimpleDateFormat;
  *
  * @see <a href="https://developers.google.com/glass/develop/gdk/touch">GDK Developer Guide</a>
  */
-public class MainActivity extends Activity implements LocationListener {
+public class MainActivity extends Activity implements LocationListener, SensorEventListener {
 
     /** {@link CardScrollView} to use as the station content view. */
     //private CardScrollView mCardScroller;
@@ -59,6 +63,9 @@ public class MainActivity extends Activity implements LocationListener {
     double longitude = 0;
     double latitude = 0;
 
+    // device sensor manager
+    private SensorManager mSensorManager;
+
     private static double ISSLongitude = 0;
     private static double ISSLatitude = 0;
     private static long ISSNextTime = 0;
@@ -67,6 +74,10 @@ public class MainActivity extends Activity implements LocationListener {
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+
+        // initialize your android device sensor capabilities
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
 
         setContentView(R.layout.station);
 
@@ -81,56 +92,24 @@ public class MainActivity extends Activity implements LocationListener {
         // be updated when users location changes significantly.
         getLocation();
 
-        /*
-        mView = buildView();
 
-        mCardScroller = new CardScrollView(this);
-        mCardScroller.setAdapter(new CardScrollAdapter() {
-            @Override
-            public int getCount() {
-                return 1;
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return mView;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                return mView;
-            }
-
-            @Override
-            public int getPosition(Object item) {
-                if (mView.equals(item)) {
-                    return 0;
-                }
-                return AdapterView.INVALID_POSITION;
-            }
-        });*/
-        // Handle the TAP event.
-/*        mCardScroller.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Plays disallowed sound to indicate that TAP actions are not supported.
-                AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                am.playSoundEffect(Sounds.DISALLOWED);
-            }
-        });
-        setContentView(mCardScroller);*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         //mCardScroller.activate();
+        // for the system's orientation sensor registered listeners
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+                SensorManager.SENSOR_DELAY_GAME);
+
     }
 
     @Override
     protected void onPause() {
         //mCardScroller.deactivate();
         super.onPause();
+        //mSensorManager.unregisterListener(this);
     }
 
     private void refreshUI() {
@@ -309,5 +288,18 @@ public class MainActivity extends Activity implements LocationListener {
 
     public static void setISSNextDuration(long newNextDuration) {
         MainActivity.ISSNextDuration = newNextDuration;
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        // get the angle around the z-axis rotated
+        float degree = Math.round(event.values[0]);
+        System.out.println("AAAAAAA"+degree);
+        //tvHeading.setText("Heading: " + Float.toString(degree) + " degrees");
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // not in use
     }
 }
