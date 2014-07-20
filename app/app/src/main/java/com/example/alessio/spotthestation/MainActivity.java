@@ -137,7 +137,7 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         else {
             // Space station is now visible
             issIsVisible = true;
-            timeText.setText("Look Up!");
+            timeText.setText("Look up!");
         }
     }
 
