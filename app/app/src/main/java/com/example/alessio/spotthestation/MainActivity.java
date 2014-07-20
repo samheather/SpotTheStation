@@ -63,6 +63,8 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
     double longitude = 0;
     double latitude = 0;
 
+    boolean issIsVisible = false;
+
     // device sensor manager
     private SensorManager mSensorManager;
 
@@ -84,9 +86,8 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         //TextView leftText = (TextView) findViewById(R.id.textView2);
         //leftText.setText("42");
 
+        // Request the location of the ISS
         new RequestIISLocation().execute("http://api.open-notify.org/iss-now.json");
-
-        new RequestIISTime().execute("http://api.open-notify.org/iss-pass.json?lat=50&lon=0.1");
 
         // Subscribe to the location service - from now on Longitude and Latitude doubles above will
         // be updated when users location changes significantly.
@@ -115,14 +116,15 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
     private void refreshUI() {
         System.out.println("Refreshing the UI");
 
-        // TODO: Remove updating the current IIS time for every UI update
-        new RequestIISTime().execute("http://api.open-notify.org/iss-pass.json?lat=50&lon=0.1");
-
         TextView timeText = (TextView)findViewById(R.id.timeTillVisible);
         long unixTime = System.currentTimeMillis() / 1000L;
         long timeToShow = ISSNextTime - unixTime;
 
-        if (unixTime - ISSNextTime > ISSNextDuration) {
+        System.out.println("---------" + unixTime + " " + ISSNextTime + " " + ISSNextDuration);
+        if (ISSNextTime - unixTime > ISSNextDuration) {
+            // Space station not visible yet
+            issIsVisible = false;
+
             // Convert to String
             Date date = new Date(timeToShow * 1000L);
             // *1000 is to convert seconds to milliseconds
@@ -133,6 +135,8 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
             timeText.setText(formattedDate);
         }
         else {
+            // Space station is now visible
+            issIsVisible = true;
             timeText.setText("Look Up!");
         }
     }
@@ -219,8 +223,8 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
 
         System.out.println(updateElevation(longitude, latitude, 165, 15).getDegsHeading());
 
-        // Refresh GUI
-        refreshUI();
+        // TODO: Remove updating the current IIS time for every UI update
+        new RequestIISTime().execute("http://api.open-notify.org/iss-pass.json?lat=50&lon=0.1");
     }
 
     @Override
@@ -301,7 +305,6 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         System.out.println("YYYY"+y);
 
 
-
         Position p = updateElevation(longitude, latitude, ISSLongitude,ISSLatitude);
 
         //HERE WE NEED TO COMPUTE THE DIFFERENCE
@@ -351,6 +354,9 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         rightText.setText(rightStr);
 
         //tvHeading.setText("Heading: " + Float.toString(degree) + " degrees");
+
+        // Refresh GUI
+        refreshUI();
     }
 
     @Override
