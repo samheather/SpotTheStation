@@ -328,8 +328,8 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         //double right = Math.abs((360-left)%360);
 
 
-        String upStr = ""+up;
-        String bottomStr = ""+bottom;
+        String upStr = ""+(int)up;
+        String bottomStr = ""+(int)bottom;
         if (up<bottom){
             bottomStr = "";
             ImageView bottomimg = (ImageView) findViewById(R.id.imgBottom);
@@ -363,8 +363,8 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
 
         double diff = degsHeadings-x;
 
-        String leftStr = ""+(-diff);
-        String rightStr = ""+diff;
+        String leftStr = ""+(int)(-diff);
+        String rightStr = ""+(int)diff;
         if (diff<0){
             rightStr = "";
             ImageView leftimg = (ImageView) findViewById(R.id.imgLeft);
