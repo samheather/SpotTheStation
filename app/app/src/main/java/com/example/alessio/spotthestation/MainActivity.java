@@ -302,7 +302,7 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         float y = Math.round(event.values[1]);  // head up or down  vertical angle (-180,+180)
         float z = Math.round(event.values[2]);  //Ignore it for now z-axes, rotate you head (-80,+80)????
 
-        System.out.println("XXXX"+x);
+        //System.out.println("XXXX"+x);
         //System.out.println("YYYY"+y);
 
 
@@ -328,8 +328,8 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         //double right = Math.abs((360-left)%360);
 
 
-        String upStr = ""+(int)up;
-        String bottomStr = ""+(int)bottom;
+        String upStr = ""+(int)up+"°";
+        String bottomStr = ""+(int)bottom+"°";
         if (up<bottom){
             bottomStr = "";
             ImageView bottomimg = (ImageView) findViewById(R.id.imgBottom);
@@ -363,8 +363,8 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
 
         double diff = degsHeadings-x;
 
-        String leftStr = ""+(int)(-diff);
-        String rightStr = ""+(int)diff;
+        String leftStr = ""+(int)(-diff)+"°";
+        String rightStr = ""+(int)diff+"°";
         if (diff<0){
             rightStr = "";
             ImageView leftimg = (ImageView) findViewById(R.id.imgLeft);
