@@ -44,18 +44,24 @@ public class RequestIISTime extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        System.out.println(result);
-        long nextIISTime = 0;
+//        System.out.println(result);
+        long nextISSTime = 0;
+        long nextISSDuration = 0;
         try {
             JSONObject jObject = new JSONObject(result);
-            nextIISTime = jObject.getJSONArray("response").getJSONObject(0).getLong("risetime");
-//            iisLongitude = jObject.getJSONObject("iss_position").getDouble("longitude");
-//            iisLatitude = jObject.getJSONObject("iss_position").getDouble("latitude");
+            nextISSTime = jObject.getJSONArray("response").getJSONObject(0).getLong("risetime");
+            nextISSDuration = jObject.getJSONArray("response").getJSONObject(0).getLong("duration");
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("IIS time: " + nextIISTime);
-        MainActivity.setISSNextTime(nextIISTime);
+        System.out.println("IIS time: " + nextISSTime);
+
+        // Update times if last time no longer visible:
+        if ((MainActivity.getISSNextDuration() == 0) || MainActivity.getISSNextTime()+MainActivity.getISSNextDuration() < (System.currentTimeMillis() / 1000L))
+        {
+            MainActivity.setISSNextTime(nextISSTime);
+            MainActivity.setISSNextDuration(nextISSDuration);
+        }
     }
 }

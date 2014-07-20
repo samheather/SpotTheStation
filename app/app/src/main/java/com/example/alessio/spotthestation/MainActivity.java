@@ -69,6 +69,7 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
     private static double ISSLongitude = 0;
     private static double ISSLatitude = 0;
     private static long ISSNextTime = 0;
+    private static long ISSNextDuration = 0;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -121,14 +122,19 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         long unixTime = System.currentTimeMillis() / 1000L;
         long timeToShow = ISSNextTime - unixTime;
 
-        // Convert to String
-        Date date = new Date(timeToShow*1000L);
-        // *1000 is to convert seconds to milliseconds
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); // the format of your date
-        String formattedDate = sdf.format(date);
-        System.out.println(formattedDate);
+        if (unixTime - ISSNextTime > ISSNextDuration) {
+            // Convert to String
+            Date date = new Date(timeToShow * 1000L);
+            // *1000 is to convert seconds to milliseconds
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss"); // the format of your date
+            String formattedDate = sdf.format(date);
+            System.out.println(formattedDate);
 
-        timeText.setText(formattedDate);
+            timeText.setText(formattedDate);
+        }
+        else {
+            timeText.setText("Look Up!");
+        }
     }
 
     /**
@@ -209,7 +215,7 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
-        System.out.println("Lat: " + latitude + ", Longitude: " + longitude);
+        System.out.println("User: Lat: " + latitude + ", Longitude: " + longitude);
 
         System.out.println(updateElevation(longitude, latitude, 165, 15).getDegsHeading());
 
@@ -274,6 +280,14 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
 
     public static void setISSNextTime(long newNextTime) {
         MainActivity.ISSNextTime = newNextTime;
+    }
+
+    public static long getISSNextDuration() {
+        return MainActivity.ISSNextDuration;
+    }
+
+    public static void setISSNextDuration(long newNextDuration) {
+        MainActivity.ISSNextDuration = newNextDuration;
     }
 
     @Override
