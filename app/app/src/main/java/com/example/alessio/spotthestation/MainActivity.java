@@ -297,6 +297,8 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
         float y = Math.round(event.values[1]);  // head up or down  vertical angle (-180,+180)
         float z = Math.round(event.values[2]);  //Ignore it for now z-axes, rotate you head (-80,+80)????
 
+        System.out.println("XXXX"+x);
+        System.out.println("YYYY"+y);
 
 
 
@@ -304,16 +306,37 @@ public class MainActivity extends Activity implements LocationListener, SensorEv
 
         //HERE WE NEED TO COMPUTE THE DIFFERENCE
 
-        double degsHeadings = p.getDegsHeading();
-        double elevation = p.getElevation();
+        double degsHeadings = 73.0;
+        double elevation = 13.0;
 
-        System.out.println("DDDD"+degsHeadings);
-        System.out.println("EEEE"+elevation);
 
-        String upStr = "D:"+degsHeadings;
-        String bottomStr = "E:"+elevation;
-        String leftStr = "left";
-        String rightStr = "right";
+        double bottom = (-(y+90-(360-elevation))%360);
+        //double up = ((y+90+elevation)%360);
+        double up = Math.abs((360-bottom)%360);
+
+        double left = ((x+degsHeadings))%360;
+
+//        double right = (-(x-(360-degsHeadings))%360);
+        double right = Math.abs((360-left)%360);
+
+
+        String upStr = ""+up;
+        String bottomStr = ""+bottom;
+        if (up<bottom){
+            bottomStr = "";
+        }
+        else {
+            upStr = "";
+        }
+
+        String leftStr = ""+left;
+        String rightStr = ""+right;
+        if (left<right){
+            rightStr = "";
+        }else{
+            leftStr = "";
+        }
+
 
         TextView upText = (TextView) findViewById(R.id.upText);
         upText.setText(upStr);
