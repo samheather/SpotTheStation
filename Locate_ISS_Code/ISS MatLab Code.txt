@@ -1,0 +1,76 @@
+function ISS_Glassware
+
+% Known difficulties.
+%{
+If the user points either ear towards the ground it will screw up as the 
+calculations assume that the user is vertical with the surface of the 
+earth.
+%}
+
+clc
+
+% Earth
+radiusEarth = 6378.1*10^3; % m
+
+% ISS
+% Position
+ISSLat = 34.4/180*pi; % phi in algebra in degrees
+ISSLong = 140/180*pi; % theta in algebra in degrees
+ISSHASL = 421*10^3; % m /260 (Height above sea level)
+
+% User
+% Position
+userLat = 50.203491/180*pi; %50.203491
+userLong = -5.120502/180*pi; %-5.120502
+userHASL = 0; % m (Height above sea level)
+
+% Looking direction.
+userBearing = 0;
+userTilt = 0; % In one dimention, looking up or down.
+
+
+
+% Cartesian Coordinates
+% ISS
+ISSCartesianXPosition = (radiusEarth+ISSHASL)*cos(ISSLat)*sin(ISSLong);
+ISSCartesianYPosition = -(radiusEarth+ISSHASL)*cos(ISSLat)*cos(ISSLong);
+ISSCartesianZPosition = (radiusEarth+ISSHASL)*sin(ISSLat);
+
+% User
+userCartesianXPosition = (radiusEarth+userHASL)*cos(userLat)*sin(userLong);
+userCartesianYPosition = -(radiusEarth+userHASL)*cos(userLat)*cos(userLong);
+userCartesianZPosition = (radiusEarth+userHASL)*sin(userLat);
+
+% Cartesian Positon Vector format
+ISSCartesianPosition = [ISSCartesianXPosition,ISSCartesianYPosition,ISSCartesianZPosition];
+userCartesianPosition = [userCartesianXPosition,userCartesianYPosition,userCartesianZPosition];
+northPoleCartesianPosition = [0,0,radiusEarth];
+
+% Vector FROM the user TO the ISS.
+cartesianVectorFromUserToISS = ISSCartesianPosition-userCartesianPosition;
+% Vector FROM the user TO the North Pole
+cartesianVectorFromUserToNorthPole = northPoleCartesianPosition-userCartesianPosition;
+
+%% Working out the Bearing 
+bearingPlaneUnitNormal = userCartesianPosition/norm(userCartesianPosition);
+
+% Taking two cartesian points and give the direction vector FROM the first
+% point TO the second point ON the bearing plane of the user.
+% Bearing plane of the user is the plane perpendicular to the surface of
+% the earth at the point the user is standing.
+cartesianDirectionVectorOnBearingPlaneFromUserToISS = cartesianVectorFromUserToISS-(dot(cartesianVectorFromUserToISS,bearingPlaneUnitNormal)*bearingPlaneUnitNormal);
+cartesianDirectionVectorOnBearingPlaneFromUserToNorthPole = cartesianVectorFromUserToNorthPole-(dot(cartesianVectorFromUserToNorthPole,bearingPlaneUnitNormal)*bearingPlaneUnitNormal);
+
+% Bearing of the ISS FROM the user
+bearingOfTheISSInRadians = acos((dot(cartesianDirectionVectorOnBearingPlaneFromUserToISS,cartesianDirectionVectorOnBearingPlaneFromUserToNorthPole)/(norm(cartesianDirectionVectorOnBearingPlaneFromUserToISS)*norm(cartesianDirectionVectorOnBearingPlaneFromUserToNorthPole))));
+bearingOfTheISS = (bearingOfTheISSInRadians*180)/pi
+
+%% Working out the 'Head Tilt'
+
+normalisedCartesianVectorFromUserToISS = cartesianVectorFromUserToISS/norm(cartesianVectorFromUserToISS);
+
+angleBetweenUserISSVecAndBearingPlaneNormal = asin(dot(normalisedCartesianVectorFromUserToISS,bearingPlaneUnitNormal));
+
+angleBetweenUserISSVecAndBearingPlaneNormal = (angleBetweenUserISSVecAndBearingPlaneNormal*180)/pi
+
+
