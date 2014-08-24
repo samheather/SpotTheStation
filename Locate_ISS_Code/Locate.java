@@ -4,21 +4,19 @@ import java.lang.Math;
 
 public class Locate {
 	
-	double pi = 3.1415926536;
-	
 	// Earth
 	double radiusEarth = 6378.1*1000; // Radius in meters
 	
 	// ISS
 	// Position
-	double ISSLat = 34.4/180*pi; // phi in algebra in degrees
-	double ISSLong = 140/180*pi; // theta in algebra in degrees
+	double ISSLat = 34.4/180*Math.PI; // phi in algebra in degrees
+	double ISSLong = 140/180*Math.PI; // theta in algebra in degrees
 	double ISSHASL = 421*10^3; // m /260 (Height above sea level)
 	
 	// User
 	// Position
-	double userLat = 50.203491/180*pi; // 50.203491
-	double userLong = -5.120502/180*pi; // -5.120502
+	double userLat = 50.203491/180*Math.PI; // 50.203491
+	double userLong = -5.120502/180*Math.PI; // -5.120502
 	double userHASL = 0; // Measured in meters (Height above sea level)
 	
 	// Looking direction
@@ -75,12 +73,12 @@ public class Locate {
 
 	// Bearing of the ISS FROM the user.
 	double bearingOfTheISSInRadians = Math.acos((vecDot(cartesianDirectionVectorOnBearingPlaneFromUserToISS,cartesianDirectionVectorOnBearingPlaneFromUserToNorthPole))/(vectNorm(cartesianDirectionVectorOnBearingPlaneFromUserToISS)*vectNorm(cartesianDirectionVectorOnBearingPlaneFromUserToNorthPole)));
-	double bearingOfTheISS = (bearingOfTheISSInRadians*180)/pi;
+	double bearingOfTheISS = (bearingOfTheISSInRadians*180)/Math.PI;
 	
 	// Working out the 'Head Tilt'
 	double[] normalisedCartesianVectorFromUserToISS = vectDivide(cartesianVectorFromUserToISS,vectNorm(cartesianVectorFromUserToISS));
 	double angleBetweenUserISSVecAndBearingPlaneNormalInRadians = Math.asin(vecDot(normalisedCartesianVectorFromUserToISS,bearingPlaneUnitNormal));
-	double angleBetweenUserISSVecAndBearingPlaneNormal = (angleBetweenUserISSVecAndBearingPlaneNormalInRadians*180)/pi;
+	double angleBetweenUserISSVecAndBearingPlaneNormal = (angleBetweenUserISSVecAndBearingPlaneNormalInRadians*180)/Math.PI;
 	
 	// Since I'm on a train and can't download la4j, I'm forced to write trivial rubbish myself - yay!
 	/**
@@ -108,7 +106,7 @@ public class Locate {
 		checkVectors(vec1, vec2);
 		double sum = 0;
 		for (int i = 0; i<vec1.length; i++) {
-			sum = sum + vec1[i] + vec2[i];
+			sum = sum + (vec1[i] * vec2[i]);
 		}
 		return sum;
 	}
@@ -127,7 +125,7 @@ public class Locate {
 	public double vectNorm(double[] vec1) {
 		double workingSquareSum = 0;
 		for (int i = 0; i<vec1.length; i++) {
-			workingSquareSum += vec1[i];
+			workingSquareSum += Math.pow(vec1[i],2);
 		}
 		return Math.sqrt(workingSquareSum);
 	}
